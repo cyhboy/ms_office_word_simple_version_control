@@ -17,7 +17,8 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub CommandButton1_Click()
-    Application.OnTime nexttime, "MyMsgBoxHide", , False
+    Application.OnTime Now(), ""
+    'Application.OnTime
     'UserForm1.Hide
     uf1.Hide
     Set uf1 = Nothing
