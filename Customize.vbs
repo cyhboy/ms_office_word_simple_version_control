@@ -1,28 +1,29 @@
 Public Sub DspEnv()
-	WScript.Echo theUser & " is connecting " & theDrive
+    WScript.Echo theUser & " is connecting " & theDrive
 End Sub
 
 Public Function GetTheDrive()
-	Dim mDrive As String
-	mDrive = ""
-	Dim fso As Object
-	Dim obj As Object
-	Set fso = CreateObject("Scripting.FileSystemObject")
-	For i = Asc("M") To Asc("Z")
-		If mDrive <> "" Then
-			Exit For
-		End If
-		For Each obj In fso.Drives
-			If obj.path = Chr(i) & ":" Then
-				If Dir(obj.path & "\AppFiles\SupportSetup\Justacro.xlam") <> "" Then
-					mDrive = obj.path
-					Exit For
-				End If
-			End If
-		Next
-	Next
-	Set fso = Nothing
-	GetTheDrive = mDrive
+    Dim mDrive As String
+    mDrive = ""
+    Dim fso As Object
+    Dim obj As Object
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Dim i As Integer
+    For i = Asc("M") To Asc("Z")
+        If mDrive <> "" Then
+            Exit For
+        End If
+        For Each obj In fso.Drives
+            If obj.path = Chr(i) & ":" Then
+                If Dir(obj.path & "\AppFiles\SupportSetup\Justacro.xlam") <> "" Then
+                    mDrive = obj.path
+                    Exit For
+                End If
+            End If
+        Next
+    Next
+    Set fso = Nothing
+    GetTheDrive = mDrive
 End Function
 
 Public Sub CpFil2FilBk(filePath1 As String, filePath2 As String, displayFlag As Boolean)
@@ -30,7 +31,7 @@ Public Sub CpFil2FilBk(filePath1 As String, filePath2 As String, displayFlag As 
     On Error GoTo ErrorHandler
     Dim fso As Object
     Set fso = CreateObject("Scripting.FileSystemObject")
-    Dim result
+    Dim result As String
     result = fso.copyfile(filePath1, filePath2)
     Set fso = Nothing
     
@@ -46,3 +47,16 @@ ErrorHandler:
         MyMsgBox Err.Number & " " & Err.Description, 30
     End If
 End Sub
+
+Public Function DocumentProperties(filePath, propName) As String
+    Dim retValue As String
+    Dim appOffice As New Application
+    Dim richFile As Document
+    Set richFile = appOffice.Documents.Open(filePath)
+    retValue = richFile.BuiltInDocumentProperties(propName)
+    richFile.Saved = True
+    richFile.Close
+    appOffice.Quit
+    Set appOffice = Nothing
+    DocumentProperties = retValue
+End Function

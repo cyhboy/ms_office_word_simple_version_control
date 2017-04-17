@@ -1,3 +1,5 @@
+Option Explicit
+
 Private Sub Document_Open()
     theDrive = GetTheDrive
     theUser = Environ$("username")
@@ -8,9 +10,10 @@ Private Sub Document_Open()
     ' 1.Remove current owner in the owner list if have
     ' 2.Close the file directly without saving
     
-    Dim Arr
+    Dim Arr As Variant
 
     Dim idx As Integer
+    Dim i As Integer
     
     If InStr(tempAuthor, theUser) > 0 Then
         Arr = Split(tempAuthor, ";")
@@ -35,8 +38,8 @@ Private Sub Document_Open()
         ActiveDocument.Close
     Else
         ActiveDocument.BuiltInDocumentProperties("Author").Value = tempAuthor
-        On Error Resume Next
-        ActiveWindow.Caption = ActiveDocument.FullName
+        'On Error Resume Next
+        ActiveDocument.ActiveWindow.Caption = ActiveDocument.FullName
     End If
 End Sub
 

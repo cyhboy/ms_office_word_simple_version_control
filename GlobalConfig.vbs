@@ -6,3 +6,10 @@ Public theUser As String 'Must Be Defined In Module, user have 2 mode, standalon
 Public confirmation As String 'The result of MyQuestionBox
 
 Public testing As Boolean
+
+Public nexttime As Long
+
+Public uf1 As Object
+Public uf2 As Object
+
+
